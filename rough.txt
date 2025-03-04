@@ -1,0 +1,62 @@
+/insta-clone
+│── /public                  # Static assets (logos, icons, default images)
+│── /src
+│   │── /app                 # Next.js App Router (if using App Router)
+│   │   │── /api
+│   │   │   │── /auth        # NextAuth.js API routes
+│   │   │   │   └── [...nextauth].ts
+│   │   │   │── /posts       # API routes for posts
+│   │   │   │   └── route.ts
+│   │   │   │── /users       # API routes for users
+│   │   │   │   └── route.ts
+│   │   │── /dashboard       # Example of a protected route
+│   │   │   └── page.tsx
+│   │   │── /profile
+│   │   │   └── page.tsx
+│   │── /components          # Reusable UI components
+│   │   │── Post.tsx
+│   │   │── Comment.tsx
+│   │   │── Navbar.tsx
+│   │   │── LikeButton.tsx
+│   │── /lib                 # Helper functions and utilities
+│   │   │── auth.ts          # NextAuth helper functions
+│   │   │── db.ts            # MongoDB connection setup
+│   │── /models              # Mongoose models
+│   │   │── Post.ts
+│   │   │── User.ts
+│   │── /styles              # Global styles
+│   │   │── globals.css
+│   │── /context             # Global state management (if needed)
+│   │   │── AuthContext.tsx
+│── /config                  # Config files (NextAuth, Cloudinary, etc.)
+│   │── nextauth.ts
+│   │── cloudinary.ts
+│── .env                     # Environment variables (MongoDB URI, Auth secrets)
+│── next.config.js           # Next.js configuration
+│── package.json             # Dependencies and scripts
+│── README.md                # Project documentation
+
+
+Profile Page UI Breakdown (Estimated Values)
+General Layout:
+Profile section (top)
+
+Profile picture: 8vw - 10vw (depending on screen size)
+Username and buttons (Edit Profile, View Archive): Font size 1.2rem - 1.5rem
+Bio text: Font size 1rem (about 16px)
+Stats (followers, following): Font size 1.1rem
+Story Highlights:
+
+Circle size: 5vw
+Spacing between highlights: 1vw
+Label text: Font size 0.8rem - 1rem
+Posts Grid:
+
+Image size: Each post in the grid is around 31vw (for a 3-column layout).
+Grid gap: 1vw
+The images are in a square ratio (1:1).
+Sidebar (left)
+
+Padding: 1vw - 2vw
+Icons: 1.5rem - 2rem
+Text labels: Font size 1rem
