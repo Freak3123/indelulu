@@ -1,21 +1,24 @@
 import mongoose from "mongoose";
-import User from "@/models/user"
 
 const connectDB = async (): Promise<void> => {
   if (mongoose.connection.readyState >= 1) {
+    console.log(" Already connected to MongoDB");
     return;
   }
 
-  console.log("Connecting to DB...");
+  console.log(" Connecting to MongoDB...");
 
   if (!process.env.MONGODB_URI) {
-    throw new Error("MONGODB_URI is not defined in environment variables");
+    throw new Error(" MONGODB_URI is missing in .env file");
   }
 
-  await mongoose.connect(process.env.MONGODB_URI);
-
-  console.log("Creating index on username...");
-  await User.collection.createIndex({ username: 1 });
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log(" Successfully connected to MongoDB!");
+  } catch (error) {
+    console.error(" MongoDB connection error:", error);
+    throw new Error("MongoDB connection failed");
+  }
 };
 
 export default connectDB;

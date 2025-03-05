@@ -1,6 +1,6 @@
 import mongoose, { Schema, Types, Document, Model } from "mongoose";
 
-//interface for the User document
+// Interface for the User document
 export interface IUser extends Document {
   _id: Types.ObjectId;
   username: string;
@@ -10,17 +10,13 @@ export interface IUser extends Document {
   profileImgKey?: string;
   following: string[];
   followers: string[];
-  communities: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 }
 
 const userSchema = new Schema<IUser>(
   {
-    _id: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
+    _id: { type: Schema.Types.ObjectId, auto: true },
     username: {
       type: String,
       required: true,
@@ -60,7 +56,5 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-//user model
-const User: Model<IUser> = mongoose.models?.User || mongoose.model<IUser>("User", userSchema);
-
+const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 export default User;
