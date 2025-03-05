@@ -1,6 +1,5 @@
 import mongoose, { Schema, Types, Document, Model } from "mongoose";
 
-// Interface for the User document
 export interface IUser extends Document {
   _id: Types.ObjectId;
   username: string;
