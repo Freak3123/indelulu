@@ -1,9 +1,35 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import {  signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
+  const { data: session, status } = useSession()
+  const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+
+
+  useEffect(() => {
+    if (!isMounted) return;
+    if (status === "loading") return;
+    console.log(session);
+
+    setIsMounted(true);
+    if (!session) {
+      router.push("/login");
+    }
+  }
+    , [isMounted]);
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/login" });
+  };
+
+
   return (
     <div className="flex flex-col items-center bg-white dark:bg-black text-black dark:text-white min-h-screen">
       {/* Profile Header */}
@@ -18,7 +44,7 @@ const ProfilePage = () => {
           {/* User Info */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-semibold">ashreetapatra</h2>
+              <h2 className="text-2xl font-semibold">{session?.user.username}</h2>
               <Button className="bg-gray-300 dark:bg-gray-700 text-black dark:text-white border border-gray-400 dark:border-gray-600 px-4 py-1 rounded-md">Edit profile</Button>
               <Button className="bg-gray-300 dark:bg-gray-700 text-black dark:text-white border border-gray-400 dark:border-gray-600 px-4 py-1 rounded-md">View archive</Button>
             </div>
@@ -27,7 +53,7 @@ const ProfilePage = () => {
               <span><strong>360</strong> followers</span>
               <span><strong>341</strong> following</span>
             </div>
-            <p className="text-gray-600 dark:text-gray-400">Freak<br />nah dude, they call me freak for a reason cutie ✨</p>
+            <p className="text-gray-600 dark:text-gray-400">Freak<br />nah dude, they call me freak for a reason cutie ✨</p> 
           </div>
         </div>
 
@@ -75,6 +101,9 @@ const ProfilePage = () => {
           className="w-full h-auto object-cover"
         />
       </div>
+      <button onClick={handleLogout} className="p-4 bg-purp rounded-full m-5">
+        logout
+      </button>
     </div>
   );
 };
