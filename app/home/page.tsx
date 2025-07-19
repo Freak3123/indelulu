@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Skeleton from "@/components/skeleton/homeskele";
+import ImageUploadModal from '@/components/ImageUploadModal';
 
 const ProfilePage = () => {
   const { data: session, status } = useSession();
@@ -16,6 +17,7 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState({ username: "Loading..." });
   const [IsError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -137,6 +139,12 @@ const ProfilePage = () => {
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">New</p>
           </div>
         </div>
+      </div>
+
+      {/* Image Uploader */}
+      <div className="max-w-4xl w-full px-4 py-8">
+        <Button onClick={() => setOpen(true)}>Create Post</Button>
+        <ImageUploadModal open={open} onOpenChange={setOpen} />
       </div>
 
       {/* Post Grid */}
