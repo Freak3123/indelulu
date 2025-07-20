@@ -33,3 +33,4 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Failed to generate URL' }), { status: 500 });
   }
 }
+

@@ -96,7 +96,7 @@ const ProfilePage = () => {
             </div>
             <div className="flex gap-6">
               <span>
-                <strong>{userData.posts}</strong> posts
+                <strong>{userData.posts.length}</strong> posts
               </span>
               <span>
                 <strong>{userData.followers.length}</strong> followers
@@ -144,7 +144,7 @@ const ProfilePage = () => {
       {/* Image Uploader */}
       <div className="max-w-4xl w-full px-4 py-8">
         <Button onClick={() => setOpen(true)}>Create Post</Button>
-        <ImageUploadModal open={open} onOpenChange={setOpen} />
+        <ImageUploadModal open={open} onOpenChange={setOpen} userName={userData.username} />
       </div>
 
       {/* Post Grid */}

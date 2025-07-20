@@ -14,9 +14,11 @@ import axios from "axios";
 export default function ImageUploadModal({
   open,
   onOpenChange,
+  userName,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
+  userName: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -46,6 +48,12 @@ export default function ImageUploadModal({
 
       console.log("✅ Download URL:", downloadUrl);
       alert(`✅ Uploaded! View image:\n${downloadUrl}`);
+
+      await axios.post("/api/post-images", {
+        userName,
+        url: downloadUrl,
+      });
+      console.log("✅ Post updated with new image");
 
       onOpenChange(false);
     } catch (err) {

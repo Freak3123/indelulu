@@ -1,4 +1,5 @@
 import mongoose, { Schema, Types, Document, Model } from "mongoose";
+import Post from "./posts";
 
 export interface IUser extends Document {
   //Kinda datatype for userSchema
@@ -6,14 +7,22 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  bio?: string|null;
+  bio?: string | null;
   profileImgKey?: string;
   following: Types.ObjectId[];
   followers: Types.ObjectId[];
-  posts: number;
+  posts: { link: string; caption: string }[];
   createdAt: Date;
   updatedAt: Date;
 }
+
+const postSchema = new mongoose.Schema(
+  {
+    link: String,
+    caption: String,
+  },
+  { _id: true, timestamps: true }
+);
 
 const userSchema = new Schema<IUser>( //kinda datatype/schema for model
   {
@@ -81,10 +90,13 @@ const userSchema = new Schema<IUser>( //kinda datatype/schema for model
       ref: "User",
       default: [],
     },
-    posts: {
-      type: Number,
-      default: 0,
-    },
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Post",
+        default: [],
+      },
+    ],
   },
   {
     timestamps: true,
