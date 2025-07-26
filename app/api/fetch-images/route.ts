@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       Key: fileName,
     });
 
-    const signedUrl = await getSignedUrl(s3, command, { expiresIn: 240 });
+    const signedUrl = await getSignedUrl(s3, command);
     console.log('📥 Generated GET URL:', signedUrl);
 
     return Response.json({ url: signedUrl });

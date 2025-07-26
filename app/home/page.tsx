@@ -19,15 +19,15 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
 
+  if (status === "unauthenticated") {
+      router.push("/login");
+    }
+
   useEffect(() => {
     setIsMounted(true);
     setIsError(false);
-    if (!session) {
-      router.push("/login");
-    }
-    if (status === "unauthenticated") {
-    router.push("/login");
-    }
+    if (!isMounted || status !== "authenticated" || !session?.user?.id) return;
+    
     const fetchUserData = async () => {
       try {
         setIsLoading(true);
@@ -40,7 +40,6 @@ const ProfilePage = () => {
         setUserData(response.data);
         setIsLoading(false);
         return response.data;
-        
       } catch (error) {
         setIsError(true);
         console.error("Error fetching user data:", error);
@@ -53,12 +52,8 @@ const ProfilePage = () => {
   }, [session, isMounted]);
 
   if (isLoading) return <Skeleton />;
-
   if (!isMounted) return null;
-
   if (status === "loading") return <Skeleton />;
-
-  
 
   const handleLogout = () => {
     signOut({ callbackUrl: "/login" });
@@ -144,32 +139,25 @@ const ProfilePage = () => {
       {/* Image Uploader */}
       <div className="max-w-4xl w-full px-4 py-8">
         <Button onClick={() => setOpen(true)}>Create Post</Button>
-        <ImageUploadModal open={open} onOpenChange={setOpen} userName={userData.username} />
+        <ImageUploadModal
+          open={open}
+          onOpenChange={setOpen}
+          userName={userData.username}
+        />
       </div>
 
-      {/* Post Grid */}
+      {/* Post Grid (***********REMEMBER TO USE RESIZABLE HERE*************) */}
       <div className="max-w-4xl w-full grid grid-cols-3 gap-1 px-4">
-        <Image
-          src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d"
-          alt="Post 1"
-          width={400}
-          height={400}
-          className="w-full h-auto object-cover"
-        />
-        <Image
-          src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d"
-          alt="Post 2"
-          width={400}
-          height={400}
-          className="w-full h-auto object-cover"
-        />
-        <Image
-          src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d"
-          alt="Post 3"
-          width={400}
-          height={400}
-          className="w-full h-auto object-cover"
-        />
+        {userData.posts.map((post, index) => (
+          <Image
+            key={index}
+            src={post.link}
+            alt={`Post ${index + 1}`}
+            width={400}
+            height={400}
+            className="w-4xl h-3/4 object-cover"
+          />
+        ))}
       </div>
       <button onClick={handleLogout} className="p-4 bg-purp rounded-full m-5">
         logout
