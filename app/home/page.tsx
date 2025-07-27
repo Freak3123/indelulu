@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Skeleton from "@/components/skeleton/homeskele";
 import ImageUploadModal from '@/components/ImageUploadModal';
+import PostModal from "@/components/post-modal";
 
 const ProfilePage = () => {
   const { data: session, status } = useSession();
@@ -18,6 +19,7 @@ const ProfilePage = () => {
   const [IsError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   if (status === "unauthenticated") {
       router.push("/login");
@@ -156,9 +158,13 @@ const ProfilePage = () => {
             width={400}
             height={400}
             className="w-4xl h-3/4 object-cover"
+            onClick={() => setSelectedPost(post)}
           />
         ))}
       </div>
+      {selectedPost && (
+        <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />
+      )}
       <button onClick={handleLogout} className="p-4 bg-purp rounded-full m-5">
         logout
       </button>
